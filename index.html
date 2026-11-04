@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structures Practice</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f5f9;color:#202638}
+#welcome{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:#edf1f7}
+.welcome-card{background:white;width:100%;max-width:520px;padding:38px 28px;border-radius:12px;text-align:center;box-shadow:0 8px 30px #18243a18}
+.welcome-card h1{font-size:38px;letter-spacing:2px;margin:0 0 28px;color:#243b65}
+.details{font-size:17px;line-height:2;text-align:left;margin:0 auto 25px;max-width:330px}
+button{border:0;border-radius:7px;background:#294d82;color:white;padding:12px 20px;font-size:15px;cursor:pointer}
+button:hover{background:#1c3965}
+#app{display:none}.top{background:#243b65;color:white;padding:20px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.top h2{margin:0;font-size:21px}.student{font-size:13px;line-height:1.6;text-align:right}
+.layout{display:grid;grid-template-columns:250px 1fr;gap:20px;max-width:1200px;margin:22px auto;padding:0 16px}
+aside,.panel{background:white;border-radius:10px;padding:18px;box-shadow:0 3px 15px #18243a0c}
+aside h3{margin:0 0 12px}.topic{display:block;width:100%;text-align:left;background:#eef2f8;color:#26364e;margin:7px 0;padding:11px;font-size:14px}.topic.active{background:#294d82;color:white}
+.panel h2{margin:0 0 8px}.muted{color:#667085;font-size:14px}
+.search{width:100%;padding:11px;border:1px solid #ccd3df;border-radius:7px;margin:16px 0}
+.question{border:1px solid #e1e6ee;border-radius:8px;padding:14px;margin:12px 0}
+.question h3{font-size:15px;line-height:1.5;margin:0 0 12px}
+.answer{display:none;margin-top:12px}.answer p{font-size:14px;line-height:1.6}
+pre{background:#172235;color:#f2f5fa;padding:14px;border-radius:7px;overflow:auto;font-size:12px;line-height:1.5;white-space:pre-wrap}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.small{padding:8px 12px;font-size:13px}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.student{text-align:left}.top{align-items:flex-start}}
+</style>
+</head>
+<body>
+<section id="welcome">
+  <div class="welcome-card">
+    <h1>WELCOME</h1>
+    <div class="details">
+      <div><b>NAME:</b> GURSIMRAN SINGH</div>
+      <div><b>CLASS:</b> B.C.A. 3 SEM</div>
+      <div><b>ROLL NO:</b> 4277/25</div>
+    </div>
+    <button onclick="enterSite()">Enter</button>
+  </div>
+</section>
+
+<main id="app">
+  <header class="top">
+    <h2>DATA STRUCTURES PRACTICE</h2>
+    <div class="student">GURSIMRAN SINGH<br>B.C.A. 3 SEM | 4277/25</div>
+  </header>
+  <div class="layout">
+    <aside>
+      <h3>Topics</h3>
+      <div id="topicList"></div>
+    </aside>
+    <section class="panel">
+      <h2 id="topicTitle">Single Dimension Arrays</h2>
+      <div class="muted" id="topicInfo">Select a question to view its answer.</div>
+      <input class="search" id="search" placeholder="Search questions..." oninput="renderQuestions()">
+      <div id="questionList"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+const topics = [
+ {name:"Single Dimension Arrays", questions:[
+ ["Enter an array from user and display all the values.", "Read n, read n elements, then print each element.", `#include <stdio.h>\nint main() {\n    int a[100], n, i;\n    printf(\"Enter size: \");\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    printf(\"Array elements: \");\n    for(i=0; i<n; i++) printf(\"%d \", a[i]);\n    return 0;\n}`],
+ ["Print an array in reverse order.", "Read the array and print its elements from the last index to the first.", `#include <stdio.h>\nint main() {\n    int a[100], n, i;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=n-1; i>=0; i--) printf(\"%d \", a[i]);\n    return 0;\n}`],
+ ["Copy an array into a second array.", "Use a loop to copy every element at the same index.", `#include <stdio.h>\nint main() {\n    int a[100], b[100], n, i;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n; i++) b[i] = a[i];\n    for(i=0; i<n; i++) printf(\"%d \", b[i]);\n    return 0;\n}`],
+ ["Copy an array into another array in reverse order.", "Copy the last element of the first array into the first position of the second array.", `#include <stdio.h>\nint main() {\n    int a[100], b[100], n, i;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n; i++) b[i] = a[n-1-i];\n    for(i=0; i<n; i++) printf(\"%d \", b[i]);\n    return 0;\n}`],
+ ["Print all even numbers in an array.", "An even number is divisible by 2.", `#include <stdio.h>\nint main() {\n    int a[100], n, i;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n; i++) if(a[i] % 2 == 0) printf(\"%d \", a[i]);\n    return 0;\n}`],
+ ["Print all positive numbers in an array.", "Print each element greater than zero.", `#include <stdio.h>\nint main() {\n    int a[100], n, i;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n; i++) if(a[i] > 0) printf(\"%d \", a[i]);\n    return 0;\n}`],
+ ["Find the square of every array element.", "Multiply each element by itself.", `#include <stdio.h>\nint main() {\n    int a[100], n, i;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n; i++) printf(\"%d \", a[i] * a[i]);\n    return 0;\n}`],
+ ["Find the maximum and minimum value in an array.", "Initialize both values with the first element and compare the remaining elements.", `#include <stdio.h>\nint main() {\n    int a[100], n, i, max, min;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    max = min = a[0];\n    for(i=1; i<n; i++) {\n        if(a[i] > max) max = a[i];\n        if(a[i] < min) min = a[i];\n    }\n    printf(\"Maximum = %d\\nMinimum = %d\", max, min);\n    return 0;\n}`],
+ ["Find the sum of all array elements.", "Add each element to a running total.", `#include <stdio.h>\nint main() {\n    int a[100], n, i, sum = 0;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) { scanf(\"%d\", &a[i]); sum += a[i]; }\n    printf(\"Sum = %d\", sum);\n    return 0;\n}`],
+ ["Count duplicate values in an array.", "Compare each element with the elements after it and count each repeated value once.", `#include <stdio.h>\nint main() {\n    int a[100], n, i, j, count=0;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n; i++) {\n        int seen=0;\n        for(j=0; j<i; j++) if(a[i]==a[j]) seen=1;\n        if(seen) continue;\n        for(j=i+1; j<n; j++) if(a[i]==a[j]) { count++; break; }\n    }\n    printf(\"Duplicate values = %d\", count);\n    return 0;\n}`],
+ ["Check whether an array is palindrome.", "Compare elements from both ends moving towards the middle.", `#include <stdio.h>\nint main() {\n    int a[100], n, i, ok=1;\n    scanf(\"%d\", &n);\n    for(i=0; i<n; i++) scanf(\"%d\", &a[i]);\n    for(i=0; i<n/2; i++) if(a[i] != a[n-1-i]) ok=0;\n    if(ok) printf(\"Palindrome array\");\n    else printf(\"Not a palindrome array\");\n    return 0;\n}`],
+ ["Merge two sorted arrays.", "Use two indexes and repeatedly copy the smaller current element into the result.", `#include <stdio.h>\nint main() {\n    int a[100], b[100], c[200], n, m, i=0, j=0, k=0;\n    scanf(\"%d\", &n);\n    for(int x=0; x<n; x++) scanf(\"%d\", &a[x]);\n    scanf(\"%d\", &m);\n    for(int x=0; x<m; x++) scanf(\"%d\", &b[x]);\n    while(i<n && j<m) c[k++] = (a[i]<b[j]) ? a[i++] : b[j++];\n    while(i<n) c[k++] = a[i++];\n    while(j<m) c[k++] = b[j++];\n    for(i=0; i<k; i++) printf(\"%d \", c[i]);\n    return 0;\n}`]
+ ]},
+ {name:"Strings",questions:[
+ ["Convert a string into uppercase.", "Read a line and convert each lowercase character to uppercase.", `#include <stdio.h>\n#include <ctype.h>\nint main() {\n    char s[200]; int i;\n    fgets(s, sizeof(s), stdin);\n    for(i=0; s[i]!='\\0'; i++) s[i] = toupper((unsigned char)s[i]);\n    printf(\"%s\", s);\n    return 0;\n}`],
+ ["Convert a string into lowercase.", "Use tolower() for every character.", `#include <stdio.h>\n#include <ctype.h>\nint main() {\n    char s[200]; int i;\n    fgets(s, sizeof(s), stdin);\n    for(i=0; s[i]!='\\0'; i++) s[i] = tolower((unsigned char)s[i]);\n    printf(\"%s\", s);\n    return 0;\n}`],
+ ["Find the length of a string.", "Count characters until the null character is reached.", `#include <stdio.h>\nint main() {\n    char s[200]; int i=0;\n    fgets(s, sizeof(s), stdin);\n    while(s[i]!='\\0' && s[i]!='\\n') i++;\n    printf(\"Length = %d\", i);\n    return 0;\n}`],
+ ["Compare two strings.", "Use strcmp() to check whether both strings are equal.", `#include <stdio.h>\n#include <string.h>\nint main() {\n    char a[100], b[100];\n    fgets(a, sizeof(a), stdin);\n    fgets(b, sizeof(b), stdin);\n    if(strcmp(a,b)==0) printf(\"Strings are equal\");\n    else printf(\"Strings are not equal\");\n    return 0;\n}`],
+ ["Reverse a string.", "Swap the first and last characters, then move towards the centre.", `#include <stdio.h>\n#include <string.h>\nint main() {\n    char s[200], t; int i, n;\n    fgets(s, sizeof(s), stdin);\n    n=strlen(s); if(n>0 && s[n-1]=='\\n') s[--n]='\\0';\n    for(i=0; i<n/2; i++) { t=s[i]; s[i]=s[n-1-i]; s[n-1-i]=t; }\n    printf(\"%s\", s);\n    return 0;\n}`],
+ ["Check whether a string is palindrome.", "Compare the characters at matching positions from the beginning and end.", `#include <stdio.h>\n#include <string.h>\nint main() {\n    char s[200]; int i, n, ok=1;\n    fgets(s, sizeof(s), stdin);\n    n=strlen(s); if(n>0 && s[n-1]=='\\n') s[--n]='\\0';\n    for(i=0; i<n/2; i++) if(s[i]!=s[n-1-i]) ok=0;\n    if(ok) printf(\"Palindrome\"); else printf(\"Not palindrome\");\n    return 0;\n}`],
+ ["Count vowels in a string.", "Check every character against a, e, i, o and u in both cases.", `#include <stdio.h>\n#include <ctype.h>\nint main() {\n    char s[200], c; int i, count=0;\n    fgets(s, sizeof(s), stdin);\n    for(i=0; s[i]!='\\0'; i++) {\n        c=tolower((unsigned char)s[i]);\n        if(c=='a'||c=='e'||c=='i'||c=='o'||c=='u') count++;\n    }\n    printf(\"Vowels = %d\", count);\n    return 0;\n}`]
+ ]},
+ {name:"Recursion",questions:[
+ ["Calculate factorial using recursion.", "Factorial of n is n multiplied by factorial of n-1. The base case is 0! = 1.", `#include <stdio.h>\nlong long fact(int n) {\n    if(n<=1) return 1;\n    return n * fact(n-1);\n}\nint main() {\n    int n; scanf(\"%d\", &n);\n    if(n<0) printf(\"Not defined\");\n    else printf(\"Factorial = %lld\", fact(n));\n    return 0;\n}`],
+ ["Print Fibonacci series using recursion.", "Each term is the sum of the previous two terms.", `#include <stdio.h>\nint fib(int n) {\n    if(n<=1) return n;\n    return fib(n-1)+fib(n-2);\n}\nint main() {\n    int n,i; scanf(\"%d\", &n);\n    for(i=0;i<n;i++) printf(\"%d \", fib(i));\n    return 0;\n}`],
+ ["Find the sum of natural numbers using recursion.", "Add n to the sum of numbers from 1 to n-1.", `#include <stdio.h>\nint sum(int n) {\n    if(n<=0) return 0;\n    return n + sum(n-1);\n}\nint main() {\n    int n; scanf(\"%d\", &n);\n    printf(\"Sum = %d\", sum(n));\n    return 0;\n}`],
+ ["Add all digits of a number using recursion.", "Add the last digit to the sum of the remaining digits.", `#include <stdio.h>\nint digitSum(int n) {\n    if(n==0) return 0;\n    return n%10 + digitSum(n/10);\n}\nint main() {\n    int n; scanf(\"%d\", &n);\n    if(n<0) n=-n;\n    printf(\"Sum = %d\", digitSum(n));\n    return 0;\n}`]
+ ]},
+ {name:"Multi-Dimensional Arrays",questions:[
+ ["Read and display a matrix of 4 rows and 2 columns.", "Use nested loops to read and display each matrix element.", `#include <stdio.h>\nint main() {\n    int a[4][2], i, j;\n    for(i=0;i<4;i++) for(j=0;j<2;j++) scanf(\"%d\", &a[i][j]);\n    for(i=0;i<4;i++) {\n        for(j=0;j<2;j++) printf(\"%d \", a[i][j]);\n        printf(\"\\n\");\n    }\n    return 0;\n}`],
+ ["Add two matrices.", "Add elements that have the same row and column positions.", `#include <stdio.h>\nint main() {\n    int a[10][10], b[10][10], r,c,i,j;\n    scanf(\"%d%d\", &r,&c);\n    for(i=0;i<r;i++) for(j=0;j<c;j++) scanf(\"%d\", &a[i][j]);\n    for(i=0;i<r;i++) for(j=0;j<c;j++) scanf(\"%d\", &b[i][j]);\n    for(i=0;i<r;i++) { for(j=0;j<c;j++) printf(\"%d \",a[i][j]+b[i][j]); printf(\"\\n\"); }\n    return 0;\n}`],
+ ["Multiply two matrices.", "For every result cell, multiply a row of the first matrix by a column of the second matrix and add the products.", `#include <stdio.h>\nint main() {\n    int a[10][10],b[10][10],c[10][10]={0};\n    int r1,c1,r2,c2,i,j,k;\n    scanf(\"%d%d\",&r1,&c1); scanf(\"%d%d\",&r2,&c2);\n    if(c1!=r2) { printf(\"Multiplication not possible\"); return 0; }\n    for(i=0;i<r1;i++) for(j=0;j<c1;j++) scanf(\"%d\",&a[i][j]);\n    for(i=0;i<r2;i++) for(j=0;j<c2;j++) scanf(\"%d\",&b[i][j]);\n    for(i=0;i<r1;i++) for(j=0;j<c2;j++) for(k=0;k<c1;k++) c[i][j]+=a[i][k]*b[k][j];\n    for(i=0;i<r1;i++){ for(j=0;j<c2;j++) printf(\"%d \",c[i][j]); printf(\"\\n\"); }\n    return 0;\n}`]
+ ]},
+ {name:"Stacks",questions:[
+ ["Implement stack operations: push, pop and peek.", "A stack follows LIFO: the last inserted item is removed first.", `#include <stdio.h>\n#define MAX 100\nint main() {\n    int s[MAX], top=-1, choice, value;\n    do {\n        printf(\"\\n1.Push 2.Pop 3.Peek 4.Display 0.Exit: \");\n        scanf(\"%d\", &choice);\n        if(choice==1) {\n            if(top==MAX-1) printf(\"Stack full\");\n            else { scanf(\"%d\", &value); s[++top]=value; }\n        } else if(choice==2) {\n            if(top==-1) printf(\"Stack empty\");\n            else printf(\"Removed %d\", s[top--]);\n        } else if(choice==3) {\n            if(top==-1) printf(\"Stack empty\");\n            else printf(\"Top = %d\", s[top]);\n        } else if(choice==4) {\n            for(int i=top;i>=0;i--) printf(\"%d \",s[i]);\n        }\n    } while(choice!=0);\n    return 0;\n}`],
+ ["Reverse a string using a stack.", "Push each character onto the stack and then pop all characters.", `#include <stdio.h>\n#include <string.h>\nint main() {\n    char s[200], stack[200]; int i, top=-1;\n    fgets(s,sizeof(s),stdin);\n    for(i=0;s[i]!='\\0' && s[i]!='\\n';i++) stack[++top]=s[i];\n    while(top>=0) putchar(stack[top--]);\n    return 0;\n}`]
+ ]},
+ {name:"Queues",questions:[
+ ["Implement a simple queue using an array.", "A queue follows FIFO: the first inserted item is removed first.", `#include <stdio.h>\n#define MAX 100\nint main() {\n    int q[MAX], front=0, rear=-1, choice, value;\n    do {\n        printf(\"\\n1.Insert 2.Delete 3.Peek 4.Display 0.Exit: \");\n        scanf(\"%d\", &choice);\n        if(choice==1) {\n            if(rear==MAX-1) printf(\"Queue full\");\n            else { scanf(\"%d\", &value); q[++rear]=value; }\n        } else if(choice==2) {\n            if(front>rear) printf(\"Queue empty\");\n            else printf(\"Deleted %d\", q[front++]);\n        } else if(choice==3) {\n            if(front>rear) printf(\"Queue empty\");\n            else printf(\"Front = %d\", q[front]);\n        } else if(choice==4) {\n            for(int i=front;i<=rear;i++) printf(\"%d \",q[i]);\n        }\n        if(front>rear) { front=0; rear=-1; }\n    } while(choice!=0);\n    return 0;\n}`],
+ ["Reverse a queue.", "Move queue elements to a stack, then move them back.", `#include <stdio.h>\nint main() {\n    int q[100], st[100], n, i, top=-1;\n    scanf(\"%d\", &n);\n    for(i=0;i<n;i++) scanf(\"%d\", &q[i]);\n    for(i=0;i<n;i++) st[++top]=q[i];\n    for(i=0;i<n;i++) q[i]=st[top--];\n    for(i=0;i<n;i++) printf(\"%d \",q[i]);\n    return 0;\n}`]
+ ]},
+ {name:"Linked Lists",questions:[
+ ["Create a singly linked list and display its elements.", "Each node stores data and the address of the next node.", `#include <stdio.h>\n#include <stdlib.h>\nstruct Node { int data; struct Node *next; };\nint main() {\n    struct Node *head=NULL, *tail=NULL, *p;\n    int n, i, value; scanf(\"%d\", &n);\n    for(i=0;i<n;i++) {\n        scanf(\"%d\", &value);\n        p=(struct Node*)malloc(sizeof(struct Node));\n        p->data=value; p->next=NULL;\n        if(head==NULL) head=p; else tail->next=p;\n        tail=p;\n    }\n    for(p=head;p!=NULL;p=p->next) printf(\"%d \",p->data);\n    return 0;\n}`],
+ ["Search an element in a linked list.", "Traverse the list and compare each node's data with the required value.", `#include <stdio.h>\n#include <stdlib.h>\nstruct Node { int data; struct Node *next; };\nint main() {\n    struct Node *head=NULL,*tail=NULL,*p,*node;\n    int n,x,i,found=0; scanf(\"%d\",&n);\n    for(i=0;i<n;i++) {\n        node=(struct Node*)malloc(sizeof(struct Node));\n        scanf(\"%d\",&node->data); node->next=NULL;\n        if(head==NULL) head=node; else tail->next=node; tail=node;\n    }\n    scanf(\"%d\",&x);\n    for(p=head;p!=NULL;p=p->next) if(p->data==x) found=1;\n    if(found) printf(\"Found\"); else printf(\"Not found\");\n    return 0;\n}`]
+ ]},
+ {name:"Trees",questions:[
+ ["Find the maximum depth of a binary tree.", "The depth is one plus the larger depth of the left and right subtrees.", `#include <stdio.h>\n#include <stdlib.h>\nstruct Node { int data; struct Node *left,*right; };\nint depth(struct Node *root) {\n    int l,r;\n    if(root==NULL) return 0;\n    l=depth(root->left); r=depth(root->right);\n    return 1+(l>r?l:r);\n}\nint main() {\n    /* Example tree: root with two children */\n    struct Node a={1,NULL,NULL}, b={2,NULL,NULL}, c={3,NULL,NULL};\n    a.left=&b; a.right=&c;\n    printf(\"Maximum depth = %d\", depth(&a));\n    return 0;\n}`],
+ ["Perform inorder traversal of a binary tree.", "Inorder traversal visits left subtree, root, then right subtree.", `#include <stdio.h>\n#include <stdlib.h>\nstruct Node { int data; struct Node *left,*right; };\nvoid inorder(struct Node *root) {\n    if(root!=NULL) {\n        inorder(root->left);\n        printf(\"%d \",root->data);\n        inorder(root->right);\n    }\n}\nint main() {\n    struct Node b={2,NULL,NULL}, c={3,NULL,NULL}, a={1,&b,&c};\n    inorder(&a);\n    return 0;\n}`]
+ ]},
+ {name:"Graphs",questions:[
+ ["Represent a graph using an adjacency matrix.", "Create a square matrix and set matrix[u][v] to 1 for every edge.", `#include <stdio.h>\nint main() {\n    int a[20][20]={0}, n, e, u, v, i, j;\n    scanf(\"%d%d\", &n, &e);\n    for(i=0;i<e;i++) { scanf(\"%d%d\", &u,&v); a[u][v]=1; a[v][u]=1; }\n    for(i=0;i<n;i++) { for(j=0;j<n;j++) printf(\"%d \",a[i][j]); printf(\"\\n\"); }\n    return 0;\n}`],
+ ["Traverse a graph using breadth-first search.", "BFS uses a queue and visits adjacent vertices level by level.", `#include <stdio.h>\nint main() {\n    int a[20][20]={0}, visited[20]={0}, q[20];\n    int n,e,u,v,start,front=0,rear=0,i,x;\n    scanf(\"%d%d\",&n,&e);\n    for(i=0;i<e;i++){ scanf(\"%d%d\",&u,&v); a[u][v]=a[v][u]=1; }\n    scanf(\"%d\",&start); q[rear++]=start; visited[start]=1;\n    while(front<rear){ x=q[front++]; printf(\"%d \",x);\n        for(i=0;i<n;i++) if(a[x][i] && !visited[i]){ visited[i]=1; q[rear++]=i; }\n    }\n    return 0;\n}`]
+ ]},
+ {name:"Searching Algorithms",questions:[
+ ["Perform linear search using iteration.", "Check each array element until the key is found or the array ends.", `#include <stdio.h>\nint main() {\n    int a[100],n,key,i,pos=-1;\n    scanf(\"%d\",&n);\n    for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n    scanf(\"%d\",&key);\n    for(i=0;i<n;i++) if(a[i]==key){pos=i;break;}\n    printf(\"Index = %d\",pos);\n    return 0;\n}`],
+ ["Perform binary search using iteration.", "The array must be sorted. Repeatedly check the middle element and reduce the search range.", `#include <stdio.h>\nint main() {\n    int a[100],n,key,l=0,r,mid,i,pos=-1;\n    scanf(\"%d\",&n);\n    for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n    scanf(\"%d\",&key); r=n-1;\n    while(l<=r){ mid=(l+r)/2;\n        if(a[mid]==key){pos=mid;break;}\n        else if(a[mid]<key) l=mid+1;\n        else r=mid-1;\n    }\n    printf(\"Index = %d\",pos);\n    return 0;\n}`]
+ ]},
+ {name:"Sorting Algorithms",questions:[
+ ["Perform bubble sort using iteration.", "Compare adjacent elements and swap them when they are in the wrong order.", `#include <stdio.h>\nint main() {\n    int a[100],n,i,j,t;\n    scanf(\"%d\",&n);\n    for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n    for(i=0;i<n-1;i++) for(j=0;j<n-1-i;j++)\n        if(a[j]>a[j+1]){t=a[j];a[j]=a[j+1];a[j+1]=t;}\n    for(i=0;i<n;i++) printf(\"%d \",a[i]);\n    return 0;\n}`],
+ ["Perform selection sort using iteration.", "Select the smallest remaining element and place it at the current position.", `#include <stdio.h>\nint main() {\n    int a[100],n,i,j,min,t;\n    scanf(\"%d\",&n);\n    for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n    for(i=0;i<n-1;i++){\n        min=i;\n        for(j=i+1;j<n;j++) if(a[j]<a[min]) min=j;\n        t=a[i];a[i]=a[min];a[min]=t;\n    }\n    for(i=0;i<n;i++) printf(\"%d \",a[i]);\n    return 0;\n}`],
+ ["Perform insertion sort using iteration.", "Insert each element into its correct position in the already sorted left part.", `#include <stdio.h>\nint main() {\n    int a[100],n,i,j,key;\n    scanf(\"%d\",&n);\n    for(i=0;i<n;i++) scanf(\"%d\",&a[i]);\n    for(i=1;i<n;i++){\n        key=a[i]; j=i-1;\n        while(j>=0 && a[j]>key){a[j+1]=a[j];j--;}\n        a[j+1]=key;\n    }\n    for(i=0;i<n;i++) printf(\"%d \",a[i]);\n    return 0;\n}`]
+ ]}
+];
+
+let currentTopic=0;
+function enterSite(){document.getElementById('welcome').style.display='none';document.getElementById('app').style.display='block';renderTopics();renderQuestions();}
+function renderTopics(){
+ const box=document.getElementById('topicList'); box.innerHTML='';
+ topics.forEach((t,i)=>{const b=document.createElement('button');b.className='topic'+(i===currentTopic?' active':'');b.textContent=t.name;b.onclick=()=>{currentTopic=i;document.getElementById('search').value='';renderTopics();renderQuestions();};box.appendChild(b);});
+}
+function renderQuestions(){
+ const t=topics[currentTopic]; document.getElementById('topicTitle').textContent=t.name;
+ document.getElementById('topicInfo').textContent=t.questions.length+' solved practice questions';
+ const term=document.getElementById('search').value.toLowerCase(); const box=document.getElementById('questionList');box.innerHTML='';
+ t.questions.forEach((q,i)=>{
+   if(!q[0].toLowerCase().includes(term)) return;
+   const card=document.createElement('article');card.className='question';
+   const h=document.createElement('h3');h.textContent=(i+1)+'. '+q[0];card.appendChild(h);
+   const btn=document.createElement('button');btn.className='small';btn.textContent='Show Answer';
+   const ans=document.createElement('div');ans.className='answer';
+   const p=document.createElement('p');p.textContent=q[1];ans.appendChild(p);
+   const pre=document.createElement('pre');pre.textContent=q[2];ans.appendChild(pre);
+   const copy=document.createElement('button');copy.className='small';copy.textContent='Copy Code';copy.onclick=()=>{navigator.clipboard.writeText(q[2]).then(()=>copy.textContent='Copied');};
+   ans.appendChild(copy);btn.onclick=()=>{ans.style.display=ans.style.display==='block'?'none':'block';btn.textContent=ans.style.display==='block'?'Hide Answer':'Show Answer';};
+   card.appendChild(btn);card.appendChild(ans);box.appendChild(card);
+ });
+ if(!box.children.length) box.textContent='No matching question found.';
+}
+</script>
+</body>
+</html>
