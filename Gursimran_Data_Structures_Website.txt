@@ -1,0 +1,25 @@
+﻿PERSONAL DATA STRUCTURES PRACTICE PORTAL
+Welcome.
+Your personal programming practice space. Explore all 164 practice problems, study clear solutions and track your progress.
+Student nameGURSIMRAN SINGH
+Class / semesterB.C.A 3 SEM
+Class roll number4277/25
+ENTER PRACTICE PORTAL  → 
+Data Structures • Programming Lab • BCA Semester 3
+GS. DATA STRUCTURES LAB
+GURSIMRAN SINGH · B.C.A 3 SEM · ROLL 4277/25
+← Welcome screen 
+Your practice dashboard
+Choose a topic and open any problem to view its approach and a reference solution.
+VISIBLE PRACTICE QUESTIONS164
+11 TOPIC AREAS · C ONLY
+SELECT A TOPIC
+Single Dimension Arrays
+Select a problem to begin.
+
+SOLUTION
+✓ Mark completed
+Program
+Copy code
+Made by Gursimran Singh · Data Structures Practice
+
